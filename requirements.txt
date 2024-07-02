@@ -1,0 +1,10 @@
+mmcv
+mmsegmentation
+torch
+torchvision
+numpy
+opencv-python
+Pillow
+scipy
+matplotlib
+tqdm
