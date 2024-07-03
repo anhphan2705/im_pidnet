@@ -13,6 +13,7 @@ from mmseg.registry import MODELS
 from mmseg.utils import OptConfigType
 from ..utils import DAPPM, PAPPM, BasicBlock, Bottleneck
 
+import math
 
 class PagFM(BaseModule):
     """Pixel-attention-guided fusion module.
@@ -469,8 +470,11 @@ class PIDNet(BaseModule):
             Tensor or tuple[Tensor]: If self.training is True, return
                 tuple[Tensor], else return Tensor.
         """
-        w_out = x.shape[-1] // 8
-        h_out = x.shape[-2] // 8
+        
+        # Resize the frame to expected dimensions
+        # Note: On going issue at https://github.com/open-mmlab/mmsegmentation/issues/2906
+        w_out = math.ceil(x.shape[-1] / 8)
+        h_out = math.ceil(x.shape[-2] / 8)
 
         # stage 0-2
         x = self.stem(x)
