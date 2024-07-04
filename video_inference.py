@@ -1,7 +1,8 @@
 import argparse
 import cv2
+import numpy as np
 from mmengine import ProgressBar
-from mmseg.apis import inference_model, init_model, show_result_pyplot
+from mmseg.apis import inference_model, init_model
 
 def parse_args():
     """
@@ -14,9 +15,14 @@ def parse_args():
     parser.add_argument('--device', default='cuda:0', help='Device used for inference (e.g., "cpu", "cuda:0")')
     parser.add_argument('--out', type=str, help='Output video file path')
     parser.add_argument('--show', action='store_true', help='Show video during processing')
-    parser.add_argument('--wait-time', type=float, default=1, help='Interval of show (seconds), 0 means blocking')
+    parser.add_argument('--wait-time', type=float, default=0.001, help='Interval of show (seconds), 0 means blocking, default = 0.001')
     args = parser.parse_args()
     return args
+
+def apply_mask(image, mask, palette):
+    """Apply the mask to the image using vectorized operations."""
+    colored_mask = palette[mask]
+    return cv2.addWeighted(image, 0.5, colored_mask, 0.5, 0)
 
 def main():
     """
@@ -31,18 +37,23 @@ def main():
 
     # Initialize the model
     model = init_model(args.config, args.checkpoint, device=args.device)
+    
+    # Get dataset meta information
+    palette = np.array(model.dataset_meta['palette'])
+    classes = model.dataset_meta['classes']
+    print(f"[DEBUG] Imported these classes: {classes}")
 
     # Open the video file
     cap = cv2.VideoCapture(args.video)
     if not cap.isOpened():
-        print("Error: Could not open video.")
+        print("[DEBUG] Error: Could not open video.")
         return
     
     # Get video properties
     fps = cap.get(cv2.CAP_PROP_FPS)
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    print(f"Video is loaded with width={width}, height={height}, fps={fps}")
+    print(f"[DEBUG] Video is loaded with width={width}, height={height}, fps={fps}")
 
     # Initialize video writer if output path is specified
     video_writer = None
@@ -54,7 +65,14 @@ def main():
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     progress_bar = ProgressBar(task_num=frame_count)
 
-    while cap.isOpened():
+    # Pre-allocate memory for colored_mask
+    colored_mask = np.zeros((height, width, 3), dtype=np.uint8)
+
+    # Create window for display if necessary
+    if args.show:
+        cv2.namedWindow('Segmented Result', cv2.WINDOW_NORMAL)
+
+    while True:
         ret, frame = cap.read()
         if not ret:
             break
@@ -62,13 +80,15 @@ def main():
         # Perform inference on the frame
         result = inference_model(model, frame)
         
-        # Visualize the result without displaying
-        frame_with_result = show_result_pyplot(model, frame, result, with_labels=False, show=False)
+        # Apply mask to the frame
+        seg = result.pred_sem_seg.data[0].cpu().numpy().astype(np.uint8)
+        colored_mask[:] = palette[seg]
+        frame_with_result = cv2.addWeighted(frame, 0.5, colored_mask, 0.5, 0)
         
         # Show the video if specified
         if args.show:
-            cv2.imshow('video', frame_with_result)
-            if cv2.waitKey(args.wait_time) & 0xFF == ord('q'):
+            cv2.imshow('Segmented Result', frame_with_result)
+            if cv2.waitKey(int(args.wait_time * 1000)) & 0xFF == ord('q'):
                 break
         
         # Write the frame to the output video file if specified
