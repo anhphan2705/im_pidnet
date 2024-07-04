@@ -67,8 +67,9 @@ def main():
         
         # Show the video if specified
         if args.show:
-            cv2.namedWindow('video', 0)
             cv2.imshow('video', frame_with_result)
+            if cv2.waitKey(args.wait_time) & 0xFF == ord('q'):
+                break
         
         # Write the frame to the output video file if specified
         if args.out:
@@ -76,10 +77,6 @@ def main():
 
         # Update the progress bar
         progress_bar.update()
-
-        # Break the loop if 'q' is pressed
-        if cv2.waitKey(args.wait_time) & 0xFF == ord('q'):
-            break
 
     # Release the video capture and writer
     cap.release()
