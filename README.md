@@ -14,7 +14,7 @@ This repository contains an implementation of PIDNet using the mmsegmentation fr
 
 ## Overview
 
-This implementation leverages the mmsegmentation framework to provide a flexible and powerful setup for training and evaluating PIDNet models. The repository includes configurations, training scripts, and inference tools.
+This implementation leverages the mmsegmentation framework to provide a flexible and powerful setup for training and evaluating PIDNet models. The repository includes configurations, training scripts, and significantly improved inference tools.
 
 ## Installation
 
