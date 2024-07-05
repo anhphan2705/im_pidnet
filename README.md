@@ -135,6 +135,19 @@ python tools/train.py configs/pidnet/choose_a_config.py
 
 Make sure to adjust the configuration file to match your dataset and training preferences.
 
+If you encounter this error message
+
+```bash
+RuntimeError: CUDA error: device-side assert triggered
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+```
+
+And this is the fix: https://github.com/open-mmlab/mmsegmentation/issues/3724#issuecomment-2202124709
+
+If you see any other error, don't hesitate to create an issue. More support on https://github.com/open-mmlab/mmsegmentation/issues
+
 ## Real-Time Inference
 
 To perform real-time inference using the `real_time_inference.py` script for both video and image directories, follow these steps:
