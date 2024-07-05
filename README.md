@@ -1,20 +1,18 @@
 # Improved PIDNet implementation From Open-MMLab/MMSegmentation
 
-This repository contains an implementation of PIDNet using the mmsegmentation framework by Open-MMLab. PIDNet is a highly efficient and accurate network for real-time semantic segmentation tasks, particularly tailored for autonomous vehicle applications.
+## Overview
+
+This repository contains an improved implementation of PIDNet from the mmsegmentation framework by Open-MMLab. PIDNet is a highly efficient and accurate network for real-time semantic segmentation tasks, particularly tailored for autonomous vehicle applications. The repository includes configurations, training scripts, and significantly improved inference tools.
 
 ## Table of Contents
 
 - [Overview](#overview)
+- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Dataset Preparation](#dataset-preparation)
 - [Training](#training)
 - [Real-Time Inference](#real-time-inference)
-- [Results](#results)
 - [Acknowledgements](#acknowledgements)
-
-## Overview
-
-This implementation leverages the mmsegmentation framework to provide a flexible and powerful setup for training and evaluating PIDNet models. The repository includes configurations, training scripts, and significantly improved inference tools.
 
 ## Installation
 
@@ -41,6 +39,86 @@ To install the required dependencies, follow these steps:
 ## Dataset Preparation
 
 Prepare your dataset as per the [mmsegmentation requirements](https://github.com/open-mmlab/mmsegmentation/blob/main/docs/en/user_guides/2_dataset_prepare.md).
+```
+mmsegmentation
+├── mmseg
+├── tools
+├── configs
+├── data
+│   ├── cityscapes
+│   │   ├── leftImg8bit
+│   │   │   ├── train
+│   │   │   ├── val
+│   │   ├── gtFine
+│   │   │   ├── train
+│   │   │   ├── val
+│   ├── coco_stuff10k
+│   │   ├── images
+│   │   │   ├── train2014
+│   │   │   ├── test2014
+│   │   ├── annotations
+│   │   │   ├── train2014
+│   │   │   ├── test2014
+│   │   ├── imagesLists
+│   │   │   ├── train.txt
+│   │   │   ├── test.txt
+│   │   │   ├── all.txt
+│   ├── coco_stuff164k
+│   │   ├── images
+│   │   │   ├── train2017
+│   │   │   ├── val2017
+│   │   ├── annotations
+│   │   │   ├── train2017
+│   │   │   ├── val2017
+|   ├── dark_zurich
+|   │   ├── gps
+|   │   │   ├── val
+|   │   │   └── val_ref
+|   │   ├── gt
+|   │   │   └── val
+|   │   ├── LICENSE.txt
+|   │   ├── lists_file_names
+|   │   │   ├── val_filenames.txt
+|   │   │   └── val_ref_filenames.txt
+|   │   ├── README.md
+|   │   └── rgb_anon
+|   │   |   ├── val
+|   │   |   └── val_ref
+|   ├── NighttimeDrivingTest
+|   |   ├── gtCoarse_daytime_trainvaltest
+|   |   │   └── test
+|   |   │       └── night
+|   |   └── leftImg8bit
+|   |   |   └── test
+|   |   |       └── night
+│   ├── bdd100k
+│   │   ├── images
+│   │   │   └── 10k
+|   │   │   │   ├── test
+|   │   │   │   ├── train
+|   │   │   │   └── val
+│   │   └── labels
+│   │   │   └── sem_seg
+|   │   │   │   ├── colormaps
+|   │   │   │   │   ├──train
+|   │   │   │   │   └──val
+|   │   │   │   ├── masks
+|   │   │   │   │   ├──train
+|   │   │   │   │   └──val
+|   │   │   │   ├── polygons
+|   │   │   │   │   ├──sem_seg_train.json
+|   │   │   │   │   └──sem_seg_val.json
+|   │   │   │   └── rles
+|   │   │   │   │   ├──sem_seg_train.json
+|   │   │   │   │   └──sem_seg_val.json
+│   ├── nyu
+│   │   ├── images
+│   │   │   ├── train
+│   │   │   ├── test
+│   │   ├── annotations
+│   │   │   ├── train
+│   │   │   ├── test
+```
 
 ## Training
 
