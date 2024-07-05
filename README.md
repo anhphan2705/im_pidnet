@@ -8,7 +8,7 @@ This repository contains an implementation of PIDNet using the mmsegmentation fr
 - [Installation](#installation)
 - [Dataset Preparation](#dataset-preparation)
 - [Training](#training)
-- [Inference](#inference)
+- [Real-Time Inference](#real-time-inference)
 - [Results](#results)
 - [Acknowledgements](#acknowledgements)
 
@@ -42,7 +42,6 @@ To install the required dependencies, follow these steps:
 
 Prepare your dataset as per the [mmsegmentation requirements](https://github.com/open-mmlab/mmsegmentation/blob/main/docs/en/user_guides/2_dataset_prepare.md).
 
-
 ## Training
 
 To train the PIDNet model, use the training script with the desired configuration file:
@@ -53,17 +52,42 @@ python tools/train.py configs/pidnet/choose_a_config.py
 
 Make sure to adjust the configuration file to match your dataset and training preferences.
 
-## Inference
+## Real-Time Inference
 
-For inference, refer to [mmsegmentation guide](https://github.com/open-mmlab/mmsegmentation/blob/main/docs/en/user_guides/3_inference.md).
+To perform real-time inference using the `real_time_inference.py` script for both video and image directories, follow these steps:
 
-Run this sample `inference.py` script to see a sample output:
+1. Ensure that you have the necessary model configuration and checkpoint files.
+
+2. Run the `real_time_inference.py` script with the appropriate arguments:
+
+### For Video Inference
+
+To perform real-time segmentation on a video file, use the following command:
 
 ```bash
-python inference.py
+python real_time_inference.py --video path/to/video.mp4 --config path/to/config.py --checkpoint path/to/checkpoint.pth --device cuda:0 --show
 ```
 
-This script will load the trained model and perform segmentation on the input image.
+### For Image Directory Inference
+
+To perform segmentation on a directory of images, use the following command:
+
+```bash
+python real_time_inference.py --images path/to/image_directory/* --config path/to/config.py --checkpoint path/to/checkpoint.pth --device cuda:0 --show
+```
+
+### Arguments
+
+- `--video`: Path to the video file for inference.
+- `--images`: Path to the directory containing images for inference.
+- `--config`: Path to the model configuration file.
+- `--checkpoint`: Path to the model checkpoint file.
+- `--device`: Device to be used for inference (`cpu` or `cuda:0`).
+- `--out`: Path to the output directory for images or video file path for saving results.
+- `--show`: If specified, display the video or images during processing.
+- `--wait-time`: Interval of show in seconds, default is 0.001 seconds.
+
+This script will load the trained model, perform segmentation on the input video or images, and display or save the results based on the provided arguments.
 
 ## Acknowledgements
 
