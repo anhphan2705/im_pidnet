@@ -40,10 +40,15 @@ To install the required dependencies, follow these steps:
 
 Prepare your dataset as per the [mmsegmentation requirements](https://github.com/open-mmlab/mmsegmentation/blob/main/docs/en/user_guides/2_dataset_prepare.md).
 ```
-mmsegmentation
+mmseg_pidnet
 ├── mmseg
 ├── tools
 ├── configs
+├── samples
+├── real_time_inference.py
+├── model-index.yml
+├── README.md
+├── requirements.txt
 ├── data
 │   ├── cityscapes
 │   │   ├── leftImg8bit
