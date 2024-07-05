@@ -166,3 +166,4 @@ data/cityscapes/*
 checkpoints/*
 work_dirs/*
 samples/*
+pidnet_env
