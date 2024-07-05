@@ -12,6 +12,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Video and Image Inference Script')
     parser.add_argument('--video', help='Video file path')
     parser.add_argument('--images', help='Path to the directory containing images')
+    parser.add_argument('--camera', type=int, help='Camera source (e.g., 0 for default webcam)')
     parser.add_argument('--config', default='configs/pidnet/pidnet-s_2xb6-120k_1024x1024-cityscapes.py', help='Config file path')
     parser.add_argument('--checkpoint', default='checkpoints/pidnet-s_2xb6-120k_1024x1024-cityscapes_20230302_191700-bb8e3bcc.pth', help='Checkpoint file path')
     parser.add_argument('--device', default='cuda:0', help='Device used for inference (e.g., "cpu", "cuda:0")')
@@ -143,15 +144,63 @@ def process_images(args, model, palette):
     if args.show:
         cv2.destroyAllWindows()
 
+def process_camera(args, model, palette):
+    """
+    Process the live video feed from the camera for inference.
+    """
+    # Open the camera source
+    cap = cv2.VideoCapture(args.camera)
+    if not cap.isOpened():
+        print("[DEBUG] Error: Could not open camera.")
+        return
+
+    # Get camera properties
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    print(f"[DEBUG] Camera is loaded with width={width}, height={height}, fps={fps}")
+    
+    # Pre-allocate memory for colored_mask
+    colored_mask = np.zeros((height, width, 3), dtype=np.uint8)
+
+    # Create window for display if necessary
+    if args.show:
+        cv2.namedWindow('Segmented Result', cv2.WINDOW_NORMAL)
+
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        # Perform inference on the frame
+        result = inference_model(model, frame)
+
+        # Apply mask to the frame
+        seg = result.pred_sem_seg.data[0].cpu().numpy().astype(np.uint8)
+        colored_mask[:] = palette[seg]
+        segmented_frame = cv2.addWeighted(frame, 0.5, colored_mask, 0.5, 0)
+
+        # Show the video if specified
+        if args.show:
+            cv2.imshow('Segmented Result', segmented_frame)
+            if cv2.waitKey(int(args.wait_time * 1000)) & 0xFF == ord('q'):
+                break
+
+    # Release the camera
+    cap.release()
+    
+    # Destroy all OpenCV windows
+    cv2.destroyAllWindows()
+
 def main():
     """
-    Main function to perform video or image inference.
+    Main function to perform video, image, or camera inference.
     """
     args = parse_args()
     
     # Ensure at least one input method is specified
-    assert args.video or args.images, (
-        'Please specify at least one input source (video/images) with the argument "--video" or "--images"'
+    assert args.video or args.images or args.camera is not None, (
+        'Please specify at least one input source (video/images/camera) with the argument "--video", "--images", or "--camera"'
     )
 
     # Initialize the model
@@ -166,6 +215,8 @@ def main():
         process_video(args, model, palette)
     elif args.images:
         process_images(args, model, palette)
+    elif args.camera is not None:
+        process_camera(args, model, palette)
 
 if __name__ == '__main__':
     main()

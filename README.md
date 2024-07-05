@@ -39,6 +39,7 @@ To install the required dependencies, follow these steps:
 ## Dataset Preparation
 
 Prepare your dataset as per the [mmsegmentation requirements](https://github.com/open-mmlab/mmsegmentation/blob/main/docs/en/user_guides/2_dataset_prepare.md).
+
 ```
 mmseg_pidnet
 ├── mmseg
@@ -76,53 +77,53 @@ mmseg_pidnet
 │   │   │   ├── train2017
 │   │   │   ├── val2017
 |   ├── dark_zurich
-|   │   ├── gps
-|   │   │   ├── val
-|   │   │   └── val_ref
-|   │   ├── gt
-|   │   │   └── val
-|   │   ├── LICENSE.txt
-|   │   ├── lists_file_names
-|   │   │   ├── val_filenames.txt
-|   │   │   └── val_ref_filenames.txt
-|   │   ├── README.md
-|   │   └── rgb_anon
-|   │   |   ├── val
-|   │   |   └── val_ref
+|   │   ├── gps
+|   │   │   ├── val
+|   │   │   └── val_ref
+|   │   ├── gt
+|   │   │   └── val
+|   │   ├── LICENSE.txt
+|   │   ├── lists_file_names
+|   │   │   ├── val_filenames.txt
+|   │   │   └── val_ref_filenames.txt
+|   │   ├── README.md
+|   │   └── rgb_anon
+|   │   │   ├── val
+|   │   │   └── val_ref
 |   ├── NighttimeDrivingTest
-|   |   ├── gtCoarse_daytime_trainvaltest
-|   |   │   └── test
-|   |   │       └── night
-|   |   └── leftImg8bit
-|   |   |   └── test
-|   |   |       └── night
+|   │   ├── gtCoarse_daytime_trainvaltest
+|   │   │   └── test
+|   │   │       └── night
+|   │   └── leftImg8bit
+|   │       └── test
+|   │           └── night
 │   ├── bdd100k
 │   │   ├── images
 │   │   │   └── 10k
-|   │   │   │   ├── test
-|   │   │   │   ├── train
-|   │   │   │   └── val
+│   │   │       ├── test
+│   │   │       ├── train
+│   │           └── val
 │   │   └── labels
-│   │   │   └── sem_seg
-|   │   │   │   ├── colormaps
-|   │   │   │   │   ├──train
-|   │   │   │   │   └──val
-|   │   │   │   ├── masks
-|   │   │   │   │   ├──train
-|   │   │   │   │   └──val
-|   │   │   │   ├── polygons
-|   │   │   │   │   ├──sem_seg_train.json
-|   │   │   │   │   └──sem_seg_val.json
-|   │   │   │   └── rles
-|   │   │   │   │   ├──sem_seg_train.json
-|   │   │   │   │   └──sem_seg_val.json
+│   │       └── sem_seg
+│   │           ├── colormaps
+│   │           │   ├──train
+│   │           │   └──val
+│   │           ├── masks
+│   │           │   ├──train
+│   │           │   └──val
+│   │           ├── polygons
+│   │           │   ├──sem_seg_train.json
+│   │           │   └──sem_seg_val.json
+│   │           └── rles
+│   │               ├──sem_seg_train.json
+│   │               └──sem_seg_val.json
 │   ├── nyu
-│   │   ├── images
-│   │   │   ├── train
-│   │   │   ├── test
-│   │   ├── annotations
-│   │   │   ├── train
-│   │   │   ├── test
+│       ├── images
+│       │   ├── train
+│       │   ├── test
+│       ├── annotations
+│           ├── train
+│           ├── test
 ```
 
 ## Training
@@ -150,7 +151,7 @@ If you see any other error, don't hesitate to create an issue. More support on h
 
 ## Real-Time Inference
 
-To perform real-time inference using the `real_time_inference.py` script for both video and image directories, follow these steps:
+To perform real-time inference using the `real_time_inference.py` script for video, image directories, or live camera feed, follow these steps:
 
 1. Ensure that you have the necessary model configuration and checkpoint files.
 
@@ -172,10 +173,19 @@ To perform segmentation on a directory of images, use the following command:
 python real_time_inference.py --images path/to/image_directory/* --config path/to/config.py --checkpoint path/to/checkpoint.pth --device cuda:0 --show
 ```
 
+### For Live Camera Feed Inference
+
+To perform real-time segmentation using a live camera feed (e.g., webcam), use the following command:
+
+```bash
+python real_time_inference.py --camera 0 --config path/to/config.py --checkpoint path/to/checkpoint.pth --device cuda:0 --show
+```
+
 ### Arguments
 
 - `--video`: Path to the video file for inference.
 - `--images`: Path to the directory containing images for inference.
+- `--camera`: Camera source index (e.g., 0 for the default webcam).
 - `--config`: Path to the model configuration file.
 - `--checkpoint`: Path to the model checkpoint file.
 - `--device`: Device to be used for inference (`cpu` or `cuda:0`).
@@ -183,8 +193,9 @@ python real_time_inference.py --images path/to/image_directory/* --config path/t
 - `--show`: If specified, display the video or images during processing.
 - `--wait-time`: Interval of show in seconds, default is 0.001 seconds.
 
-This script will load the trained model, perform segmentation on the input video or images, and display or save the results based on the provided arguments.
+This script will load the trained model, perform segmentation on the input video, images, or live camera feed, and display or save the results based on the provided arguments.
 
 ## Acknowledgements
 
-This implementation is heavily based on the [mmsegmentation](https://github.com/open-mmlab/mmsegmentation) repository by Open-MMLab.
+- [PIDNet](https://github.com/XuJiacong/PIDNet)
+- [mmsegmentation](https://github.com/open-mmlab/mmsegmentation)
