@@ -1,20 +1,18 @@
 # Improved PIDNet implementation From Open-MMLab/MMSegmentation
 
-This repository contains an implementation of PIDNet using the mmsegmentation framework by Open-MMLab. PIDNet is a highly efficient and accurate network for real-time semantic segmentation tasks, particularly tailored for autonomous vehicle applications.
+## Overview
+
+This repository contains an improved implementation of PIDNet from the mmsegmentation framework by Open-MMLab. PIDNet is a highly efficient and accurate network for real-time semantic segmentation tasks, particularly tailored for autonomous vehicle applications. The repository includes configurations, training scripts, and significantly improved inference tools.
 
 ## Table of Contents
 
 - [Overview](#overview)
+- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Dataset Preparation](#dataset-preparation)
 - [Training](#training)
 - [Real-Time Inference](#real-time-inference)
-- [Results](#results)
 - [Acknowledgements](#acknowledgements)
-
-## Overview
-
-This implementation leverages the mmsegmentation framework to provide a flexible and powerful setup for training and evaluating PIDNet models. The repository includes configurations, training scripts, and significantly improved inference tools.
 
 ## Installation
 
@@ -41,7 +39,7 @@ To install the required dependencies, follow these steps:
 ## Dataset Preparation
 
 Prepare your dataset as per the [mmsegmentation requirements](https://github.com/open-mmlab/mmsegmentation/blob/main/docs/en/user_guides/2_dataset_prepare.md).
-`
+```
 mmsegmentation
 ├── mmseg
 ├── tools
@@ -120,7 +118,7 @@ mmsegmentation
 │   │   ├── annotations
 │   │   │   ├── train
 │   │   │   ├── test
-`
+```
 
 ## Training
 
