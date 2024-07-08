@@ -145,7 +145,7 @@ Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
 
 And this is the fix: https://github.com/open-mmlab/mmsegmentation/issues/3724#issuecomment-2202124709
 
-If you see any other error, don't hesitate to create an issue. More support on https://github.com/open-mmlab/mmsegmentation/issues
+If you see any other error, don't hesitate to open an issue request. More support on https://github.com/open-mmlab/mmsegmentation/issues
 
 ## Real-Time Inference
 
