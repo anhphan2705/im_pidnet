@@ -18,8 +18,8 @@ To install the required dependencies, follow these steps:
 
 1. Clone the repository:
     ```bash
-    https://github.com/anhphan2705/mmseg_pidnet.git
-    cd mmseg_pidnet-main
+    git clone https://github.com/anhphan2705/mmseg_pidnet.git
+    cd mmseg_pidnet
     ```
 
 2. Create a virtual environment and activate it:
