@@ -172,7 +172,7 @@ python real_time_inference.py --video path/to/video.mp4 --config path/to/config.
 To perform segmentation on a directory of images, use the following command:
 
 ```bash
-python real_time_inference.py --images path/to/image_directory/* --config path/to/config.py --checkpoint path/to/checkpoint.pth --device cuda:0 --show
+python real_time_inference.py --image path/to/image/directory/* --config path/to/config.py --checkpoint path/to/checkpoint.pth --device cuda:0 --show
 ```
 
 ### For Live Camera Feed Inference

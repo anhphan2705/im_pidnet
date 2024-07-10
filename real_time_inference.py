@@ -11,7 +11,7 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description='Video and Image Inference Script')
     parser.add_argument('--video', help='Video file path')
-    parser.add_argument('--images', help='Path to the directory containing images')
+    parser.add_argument('--image', help='Path to the directory containing images')
     parser.add_argument('--camera', type=int, help='Camera source (e.g., 0 for default webcam)')
     parser.add_argument('--config', default='configs/pidnet/pidnet-s_2xb6-120k_1024x1024-cityscapes.py', help='Config file path')
     parser.add_argument('--checkpoint', default='checkpoints/pidnet-s_2xb6-120k_1024x1024-cityscapes_20230302_191700-bb8e3bcc.pth', help='Checkpoint file path')
@@ -118,7 +118,7 @@ def process_images(args, model, palette):
     """
     Process the images for inference.
     """
-    images = get_images(args.images)
+    images = get_images(args.image)
     count = 1
     for image_path, image in images:
         # Perform inference on the image
@@ -199,7 +199,7 @@ def main():
     args = parse_args()
     
     # Ensure at least one input method is specified
-    assert args.video or args.images or args.camera is not None, (
+    assert args.video or args.image or args.camera is not None, (
         'Please specify at least one input source (video/images/camera) with the argument "--video", "--images", or "--camera"'
     )
 
@@ -213,7 +213,7 @@ def main():
 
     if args.video:
         process_video(args, model, palette)
-    elif args.images:
+    elif args.image:
         process_images(args, model, palette)
     elif args.camera is not None:
         process_camera(args, model, palette)
