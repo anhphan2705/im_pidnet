@@ -149,7 +149,11 @@ If you see any other error, don't hesitate to open an issue request. More suppor
 
 ## Real-Time Inference
 
-To perform real-time inference using the `real_time_inference.py` script for video, image directories, or live camera feed, follow these steps:
+<div align="center">
+    <img src="./samples/output/result_2.png" alt="Segmented Result" width="50%">
+</div>
+
+To perform real-time inference using the `real_time_inference.py` script for videos, images, or live camera feed, follow these steps:
 
 1. Ensure that you have the necessary model configuration and checkpoint files.
 
