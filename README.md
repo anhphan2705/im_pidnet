@@ -163,7 +163,7 @@ To perform real-time segmentation on a video file, use the following command:
 python real_time_inference.py --video path/to/video.mp4 --config path/to/config.py --checkpoint path/to/checkpoint.pth --device cuda:0 --show
 ```
 
-### For Image Directory Inference
+### For Image Inference
 
 To perform segmentation on a directory of images, use the following command:
 
